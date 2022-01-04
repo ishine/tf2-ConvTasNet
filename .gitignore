@@ -126,3 +126,6 @@ dmypy.json
 # VS Code workspace
 *.code-workspace
 *.vscode
+
+# Data
+MiniLibriMix/
