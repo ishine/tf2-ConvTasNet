@@ -1,21 +1,10 @@
 import tensorflow as tf
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Layer
 from tensorflow_addons.layers import GroupNormalization
 
 
-class ConvBlock(tf.Module):
-    """1D Convolutional block.
-
-    Args:
-        io_channels (int): The number of input/output channels, <B, Sc>
-        hidden_channels (int): The number of channels in the internal layers, <H>.
-        kernel_size (int): The convolution kernel size of the middle layer, <P>.
-        padding (int): Padding value of the convolution in the middle layer.
-        dilation (int, optional): Dilation value of the convolution in the middle layer.
-        no_redisual (bool, optional): Disable residual block/output.
-
-    Note:
-        This implementation corresponds to the "non-causal" setting in the paper.
-    """
+class ConvBlock(Layer):
 
     def __init__(
         self,
@@ -52,24 +41,7 @@ class ConvBlock(tf.Module):
         return residual, skip_out
 
 
-class MaskGenerator(tf.Module):
-    """TCN (Temporal Convolution Network) Separation Module
-
-    Generates masks for separation.
-
-    Args:
-        input_dim (int): Input feature dimension, <N>.
-        num_sources (int): The number of sources to separate.
-        kernel_size (int): The convolution kernel size of conv blocks, <P>.
-        num_featrs (int): Input/output feature dimenstion of conv blocks, <B, Sc>.
-        num_hidden (int): Intermediate feature dimention of conv blocks, <H>
-        num_layers (int): The number of conv blocks in one stack, <X>.
-        num_stacks (int): The number of conv block stacks, <R>.
-        msk_activate (str): The activation function of the mask output.
-
-    Note:
-        This implementation corresponds to the "non-causal" setting in the paper.
-    """
+class MaskGenerator(Layer):
 
     def __init__(
         self,
@@ -88,6 +60,7 @@ class MaskGenerator(tf.Module):
         self.input_dim = input_dim
         self.num_sources = num_sources
 
+        #FIXME
         self.input_norm = GroupNormalization()
         self.input_conv = tf.keras.layers.Conv1D()
 
@@ -119,14 +92,6 @@ class MaskGenerator(tf.Module):
             self.mask_activate = tf.keras.activations.relu()
 
     def forward(self, input: tf.Tensor):
-        """Generate separation mask.
-
-        Args:
-            input (torch.Tensor): 3D Tensor with shape [batch, features, frames]
-
-        Returns:
-            Tensor: shape [batch, num_sources, features, frames]
-        """
 
         batch_size = input.shape[0]
         feats = self.input_norm(input)
@@ -144,28 +109,10 @@ class MaskGenerator(tf.Module):
         output = self.mask_activate(output)
 
         return tf.reshape(output,
-                          (batch_size, self.num_sources, self.input_dim, -1))
+                          (batch_size, self.num_sources, self.input_dim))
 
 
-class ConvTasNet(tf.Module):
-    """Conv-TasNet: a fully-convolutional time-domain audio separation network
-    *Conv-TasNet: Surpassing Ideal Time–Frequency Magnitude Masking for Speech Separation*
-    [:footcite:`Luo_2019`].
-
-    Args:
-        num_sources (int, optional): The number of sources to split.
-        enc_kernel_size (int, optional): The convolution kernel size of the encoder/decoder, <L>.
-        enc_num_feats (int, optional): The feature dimensions passed to mask generator, <N>.
-        msk_kernel_size (int, optional): The convolution kernel size of the mask generator, <P>.
-        msk_num_feats (int, optional): The input/output feature dimension of conv block in the mask generator, <B, Sc>.
-        msk_num_hidden_feats (int, optional): The internal feature dimension of conv block of the mask generator, <H>.
-        msk_num_layers (int, optional): The number of layers in one conv block of the mask generator, <X>.
-        msk_num_stacks (int, optional): The numbr of conv blocks of the mask generator, <R>.
-        msk_activate (str, optional): The activation function of the mask output (Default: ``sigmoid``).
-
-    Note:
-        This implementation corresponds to the "non-causal" setting in the paper.
-    """
+class ConvTasNet(Model):
 
     def __init__(
         self,
@@ -187,8 +134,10 @@ class ConvTasNet(tf.Module):
         self.enc_kernel_size = enc_kernel_size
         self.enc_stride = enc_kernel_size // 2
 
+        #FIXME
         self.encoder = tf.keras.layers.Conv1D()
 
+        #FIXME
         self.mask_generator = MaskGenerator(
             input_dim=enc_num_feats,
             num_sources=num_sources,
@@ -200,6 +149,7 @@ class ConvTasNet(tf.Module):
             msk_activate=msk_activate,
         )
 
+        #FIXME
         self.decoder = tf.keras.layers.Conv1DTranspose()
 
     def _align_num_frames_with_strides(self, input: tf.Tensor):
