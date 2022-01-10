@@ -17,3 +17,7 @@ for dataset in ['train', 'val']:
     audio = pd.DataFrame(signals, columns=['signal'])
     name = 'test' if dataset == 'val' else dataset
     audio.to_parquet(f'data/{name}.parquet')
+
+    for mix in paths["mixture_path"]:
+        wavf = tf.io.read_file(mix)
+        wav, _ = tf.audio.decode_wav(contents=)
