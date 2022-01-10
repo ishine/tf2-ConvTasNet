@@ -2,9 +2,6 @@ import os
 import pandas as pd
 import tensorflow as tf
 
-if os.getcwd() != 'tf2-ConvTasNet':
-    os.chdir('..')
-
 for dataset in ['train', 'val']:
     paths = pd.read_csv(
         f"MiniLibriMix/metadata/mixture_{dataset}_mix_clean.csv")
