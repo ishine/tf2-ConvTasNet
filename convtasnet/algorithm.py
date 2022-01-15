@@ -3,6 +3,16 @@ from tensorflow.keras import Model, layers
 
 
 class ConvBlock(layers.Layer):
+    """1D Convolutional block.
+
+    # Arguments
+
+        filters (int): The number of channels in the internal layers.
+        kernel_size (int): The convolution kernel size of the middle layer.
+        no_redisual (bool, optional): Disable residual block/output.
+
+    """
+
     def __init__(
         self,
         filters: int,
@@ -42,6 +52,23 @@ class ConvBlock(layers.Layer):
 
 
 class MaskGenerator(layers.Layer):
+    """TCN (Temporal Convolution Network) Separation Module
+
+    Generates masks for separation.
+
+    # Arguments
+
+        input_dim (int): Input feature dimension.
+        num_sources (int): The number of sources to separate.
+        kernel_size (int): The convolution kernel size of conv blocks.
+        num_feats (int): Input/output feature dimenstion of conv blocks.
+        num_hidden (int): Intermediate feature dimention of conv blocks.
+        num_layers (int): The number of conv blocks in one stack.
+        num_stacks (int): The number of conv block stacks.
+        msk_activate (str): The activation function of the mask output.
+
+    """
+
     def __init__(
         self,
         input_dim: int,
@@ -113,13 +140,13 @@ class ConvTasNet(Model):
     # Arguments
 
         num_sources (int, optional): The number of sources to split.
-        enc_kernel_size (int, optional): The convolution kernel size of the encoder/decoder, <L>.
-        enc_num_feats (int, optional): The feature dimensions passed to mask generator, <N>.
-        msk_kernel_size (int, optional): The convolution kernel size of the mask generator, <P>.
-        msk_num_feats (int, optional): The input/output feature dimension of conv block in the mask generator, <B, Sc>.
-        msk_num_hidden_feats (int, optional): The internal feature dimension of conv block of the mask generator, <H>.
-        msk_num_layers (int, optional): The number of layers in one conv block of the mask generator, <X>.
-        msk_num_stacks (int, optional): The numbr of conv blocks of the mask generator, <R>.
+        enc_kernel_size (int, optional): The convolution kernel size of the encoder/decoder.
+        enc_num_feats (int, optional): The feature dimensions passed to mask generator.
+        msk_kernel_size (int, optional): The convolution kernel size of the mask generator.
+        msk_num_feats (int, optional): The input/output feature dimension of conv block in the mask generator.
+        msk_num_hidden_feats (int, optional): The internal feature dimension of conv block of the mask generator.
+        msk_num_layers (int, optional): The number of layers in one conv block of the mask generator.
+        msk_num_stacks (int, optional): The numbr of conv blocks of the mask generator.
         msk_activate (str, optional): The activation function of the mask output (Default: ``sigmoid``).
 
     # Note

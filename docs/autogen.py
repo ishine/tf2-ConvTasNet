@@ -2,7 +2,13 @@ import keras_autodoc
 import pathlib
 import shutil
 
-PAGES = {"The Algorithm.md": ["convtasnet.algorithm.ConvTasNet"]}
+PAGES = {
+    "The Algorithm.md": [
+        "convtasnet.algorithm.ConvTasNet",
+        "convtasnet.algorithm.MaskGenerator",
+        "convtasnet.algorithm.ConvBlock",
+    ]
+}
 
 root_dir = pathlib.Path(__file__).resolve().parents[1]
 
