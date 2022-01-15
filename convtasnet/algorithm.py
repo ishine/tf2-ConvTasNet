@@ -3,7 +3,6 @@ from tensorflow.keras import Model, layers
 
 
 class ConvBlock(layers.Layer):
-
     def __init__(
         self,
         filters: int,
@@ -13,17 +12,18 @@ class ConvBlock(layers.Layer):
 
         super(ConvBlock, self).__init__()
 
-        self.conv_layers = tf.keras.Sequential([
-            layers.Conv1D(filters, kernel_size),
-            layers.PReLU(),
-            layers.LayerNormalization(),
-            layers.Conv1D(filters, kernel_size),
-            layers.PReLU(),
-            layers.LayerNormalization()
-        ])
+        self.conv_layers = tf.keras.Sequential(
+            [
+                layers.Conv1D(filters, kernel_size),
+                layers.PReLU(),
+                layers.LayerNormalization(),
+                layers.Conv1D(filters, kernel_size),
+                layers.PReLU(),
+                layers.LayerNormalization(),
+            ]
+        )
 
-        self.res_out = (None if no_residual else layers.Conv1D(
-            filters, kernel_size))
+        self.res_out = None if no_residual else layers.Conv1D(filters, kernel_size)
 
         self.skip_out = layers.Conv1D(filters, kernel_size)
 
@@ -42,7 +42,6 @@ class ConvBlock(layers.Layer):
 
 
 class MaskGenerator(layers.Layer):
-
     def __init__(
         self,
         input_dim: int,
@@ -68,21 +67,24 @@ class MaskGenerator(layers.Layer):
         self.conv_layers = []
         for s in range(num_stacks):
             for l in range(num_layers):
-                multi = 2**l
+                multi = 2 ** l
                 self.conv_layers.append(
-                    ConvBlock(num_feats,
-                              kernel_size,
-                              no_residual=(l == (num_layers - 1)
-                                           and s == (num_stacks - 1))))
-                self.receptive_field += (kernel_size if s == 0 and l == 0 else
-                                         (kernel_size - 1) * multi)
+                    ConvBlock(
+                        num_feats,
+                        kernel_size,
+                        no_residual=(l == (num_layers - 1) and s == (num_stacks - 1)),
+                    )
+                )
+                self.receptive_field += (
+                    kernel_size if s == 0 and l == 0 else (kernel_size - 1) * multi
+                )
 
         self.output_prelu = layers.PReLU()
         self.output_conv = layers.Conv1D(num_feats, kernel_size)
 
-        if msk_activate == 'sigmoid':
+        if msk_activate == "sigmoid":
             self.mask_activate = tf.keras.activations.sigmoid
-        elif msk_activate == 'relu':
+        elif msk_activate == "relu":
             self.mask_activate = tf.keras.activations.relu
 
     def call(self, input: tf.Tensor):
@@ -102,11 +104,28 @@ class MaskGenerator(layers.Layer):
         output = self.output_conv(output)
         output = self.mask_activate(output)
 
-        return tf.reshape(output,
-                          (batch_size, self.num_sources, self.input_dim))
+        return tf.reshape(output, (batch_size, self.num_sources, self.input_dim))
 
 
 class ConvTasNet(Model):
+    """Separates the signals.
+
+    # Arguments
+
+        num_sources (int, optional): The number of sources to split.
+        enc_kernel_size (int, optional): The convolution kernel size of the encoder/decoder, <L>.
+        enc_num_feats (int, optional): The feature dimensions passed to mask generator, <N>.
+        msk_kernel_size (int, optional): The convolution kernel size of the mask generator, <P>.
+        msk_num_feats (int, optional): The input/output feature dimension of conv block in the mask generator, <B, Sc>.
+        msk_num_hidden_feats (int, optional): The internal feature dimension of conv block of the mask generator, <H>.
+        msk_num_layers (int, optional): The number of layers in one conv block of the mask generator, <X>.
+        msk_num_stacks (int, optional): The numbr of conv blocks of the mask generator, <R>.
+        msk_activate (str, optional): The activation function of the mask output (Default: ``sigmoid``).
+
+    # Note
+
+        This implementation corresponds to the "non-causal" setting in the paper.
+    """
 
     def __init__(
         self,
@@ -118,7 +137,7 @@ class ConvTasNet(Model):
         msk_num_hidden_feats: int = 512,
         msk_num_layers: int = 8,
         msk_num_stacks: int = 3,
-        msk_activate: str = 'sigmoid',
+        msk_activate: str = "sigmoid",
     ):
 
         super(ConvTasNet, self).__init__()
@@ -141,7 +160,7 @@ class ConvTasNet(Model):
             msk_activate,
         )
 
-        #FIXME
+        # FIXME
         self.decoder = tf.keras.layers.Conv1DTranspose(1, enc_kernel_size)
 
     def _align_num_frames_with_strides(self, input: tf.Tensor):
@@ -155,8 +174,9 @@ class ConvTasNet(Model):
             return input, 0
 
         num_paddings = self.enc_stride - num_remainings
-        pad = tf.zeros(shape=(batch_size, num_channels, num_paddings),
-                       dtype=input.dtype)
+        pad = tf.zeros(
+            shape=(batch_size, num_channels, num_paddings), dtype=input.dtype
+        )
 
         return tf.concat([input, pad], 2)
 
@@ -171,12 +191,10 @@ class ConvTasNet(Model):
         batch_size, num_padded_frames = padded.shape[0], padded.shape[2]
         feats = self.encoder(padded)
         masked = self.mask_generator(feats) * tf.expand_dims(input, 1)
-        masked = tf.reshape(input,
-                            (batch_size, self.num_sources, num_padded_frames))
+        masked = tf.reshape(input, (batch_size, self.num_sources, num_padded_frames))
 
         decoded = self.decoder(masked)
-        output = tf.reshape(decoded,
-                            (batch_size, self.num_sources, num_padded_frames))
+        output = tf.reshape(decoded, (batch_size, self.num_sources, num_padded_frames))
 
         if num_pads > 0:
             output = output[..., :-num_pads]
