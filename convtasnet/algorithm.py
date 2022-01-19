@@ -9,7 +9,7 @@ class ConvBlock(layers.Layer):
 
         filters (int): The number of channels in the internal layers.
         kernel_size (int): The convolution kernel size of the middle layer.
-        no_redisual (bool, optional): Disable residual block/output.
+        no_residual (bool, optional): Disable residual block/output.
 
     """
 
@@ -190,7 +190,7 @@ class ConvTasNet(Model):
         # FIXME
         self.decoder = tf.keras.layers.Conv1DTranspose(1, enc_kernel_size)
 
-    def _align_num_frames_with_strides(self, input: tf.Tensor):
+    def pad(self, input: tf.Tensor):
 
         batch_size, num_channels, num_frames = input.shape
         is_odd = self.enc_kernel_size % 2
@@ -214,7 +214,7 @@ class ConvTasNet(Model):
                 f"Expected 3D tensor (batch, channels==1, frame). Found {input.shape}"
             )
 
-        padded, num_pads = self._align_num_frames_with_strides(input)
+        padded, num_pads = self.pad(input)
         batch_size, num_padded_frames = padded.shape[0], padded.shape[2]
         feats = self.encoder(padded)
         masked = self.mask_generator(feats) * tf.expand_dims(input, 1)
