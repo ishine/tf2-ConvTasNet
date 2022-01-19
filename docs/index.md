@@ -1,6 +1,17 @@
-# Home
+# Welcome to MkDocs
 
-This repo serves to explore the concepts contained in the paper [*Conv-TasNet: Surpassing Ideal Time-Frequency
-Magnitude Masking for Speech Separation*](https://arxiv.org/pdf/1809.07454.pdf).
+For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-The authors of the paper provided PyTorch code as an example implementation. Additionally, there exists an official [PyTorch implementation](https://pytorch.org/audio/stable/_modules/torchaudio/models/conv_tasnet.html); the official implementation was used as a guide for the TensorFlow code contained in this repo.
+## Commands
+
+* `mkdocs new [dir-name]` - Create a new project.
+* `mkdocs serve` - Start the live-reloading docs server.
+* `mkdocs build` - Build the documentation site.
+* `mkdocs -h` - Print help message and exit.
+
+## Project layout
+
+    mkdocs.yml    # The configuration file.
+    docs/
+        index.md  # The documentation homepage.
+        ...       # Other markdown pages, images and other files.
