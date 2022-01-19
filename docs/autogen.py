@@ -20,4 +20,4 @@ def generate(dest_dir):
 
 
 if __name__ == "__main__":
-    generate(root_dir / "docs" / "sources")
+    generate(root_dir / "docs")

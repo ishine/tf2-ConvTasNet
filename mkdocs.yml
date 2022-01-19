@@ -1,7 +1,5 @@
 site_name: Signal Separation
 
-docs_dir: sources
-
 theme:
   name: material
   palette:
