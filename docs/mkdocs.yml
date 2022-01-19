@@ -5,23 +5,13 @@ docs_dir: sources
 theme:
   name: material
   palette:
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: red
-      accent: red
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: black
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
   font:
     text: Roboto
     code: Roboto Mono
 
 repo_name: tf2-ConvTasNet
-repo_url: https://github.com/JustinGoheen/tf2-ConvTasNet
+repo_url: https://github.com/AiEngineering/tf2-ConvTasNet
 edit_uri: ""
