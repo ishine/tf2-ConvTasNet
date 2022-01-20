@@ -1,6 +1,6 @@
 site_name: Signal Separation
 
-docs_dir: docs/sources
+docs_dir: sources
 
 theme:
   name: material

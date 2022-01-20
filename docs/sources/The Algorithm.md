@@ -2,7 +2,7 @@
 
 
 ```python
-convtasnet.algorithm.ConvTasNet(
+model.algorithm.ConvTasNet(
     num_sources=2,
     enc_kernel_size=16,
     enc_num_feats=512,
@@ -41,7 +41,7 @@ This implementation corresponds to the "non-causal" setting in the paper.
 
 
 ```python
-convtasnet.algorithm.MaskGenerator(
+model.algorithm.MaskGenerator(
     input_dim, num_sources, kernel_size, num_feats, num_hidden, num_layers, num_stacks, msk_activate
 )
 ```
@@ -69,7 +69,7 @@ __Arguments__
 
 
 ```python
-convtasnet.algorithm.ConvBlock(filters, kernel_size, no_residual=False)
+model.algorithm.ConvBlock(filters, kernel_size, no_residual=False)
 ```
 
 
@@ -79,7 +79,7 @@ __Arguments__
 
 - __filters (int)__: The number of channels in the internal layers.
 - __kernel_size (int)__: The convolution kernel size of the middle layer.
-- __no_redisual (bool, optional)__: Disable residual block/output.
+- __no_residual (bool, optional)__: Disable residual block/output.
 
 
 ----
