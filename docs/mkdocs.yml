@@ -1,0 +1,17 @@
+site_name: Signal Separation
+
+docs_dir: sources
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+repo_name: tf2-ConvTasNet
+repo_url: https://github.com/AiEngineering/tf2-ConvTasNet
+edit_uri: ""
