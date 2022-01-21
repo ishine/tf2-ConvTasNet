@@ -2,6 +2,11 @@ import numpy as np
 import tensorflow as tf
 from itertools import permutations
 
+"""
+borrowed from https://github.com/naplab/Conv-TasNet/blob/e66d82a8f956a69749ec8a4ae382217faa097c5c/utility/sdr.py
+and altered to remove PyTorch code
+"""
+
 
 def calc_sdr(estimation, origin, mask=None):
     """
