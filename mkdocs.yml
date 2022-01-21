@@ -1,6 +1,6 @@
 site_name: Signal Separation
 
-docs_dir: sources
+# docs_dir: sources
 
 theme:
   name: material
@@ -15,3 +15,8 @@ theme:
 repo_name: tf2-ConvTasNet
 repo_url: https://github.com/AiEngineering/tf2-ConvTasNet
 edit_uri: ""
+
+nav:
+  - Home: "index.md"
+  - Hyperparameters: "Hyerparameters.md"
+  - "The Algorithm": "sources/The Algorithm.md"
