@@ -187,7 +187,6 @@ class ConvTasNet(Model):
             msk_activate,
         )
 
-        # FIXME
         self.decoder = tf.keras.layers.Conv1DTranspose(1, enc_kernel_size)
 
     def pad(self, input: tf.Tensor):
