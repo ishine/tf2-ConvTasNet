@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import tensorflow as tf
+
 """
 example: https://www.tensorflow.org/tutorials/audio/simple_audio#build_and_train_the_model
 """
@@ -29,25 +30,22 @@ def get_waveform_and_label(file_path):
     return waveform, label
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
-    for dataset in ['train', 'val']:
-        paths = pd.read_csv(
-            f"MiniLibriMix/metadata/mixture_{dataset}_mix_clean.csv")
-        ds = pd.DataFrame([
-            tf.audio.decode_wav(contents=tf.io.read_file(mix))
-            for mix in paths["mixture_path"]
-        ])
+    for dataset in ["train", "val"]:
+        paths = pd.read_csv(f"MiniLibriMix/metadata/mixture_{dataset}_mix_clean.csv")
+        ds = pd.DataFrame(
+            [
+                tf.audio.decode_wav(contents=tf.io.read_file(mix))
+                for mix in paths["mixture_path"]
+            ]
+        )
 
         signals = []
 
         for i in range(ds.shape[0]):
-            signals.append([ds['audio'].iloc[i].numpy().flatten()])
-        audio = pd.DataFrame(signals, columns=['signal'])
-        name = 'test' if dataset == 'val' else dataset
-        audio.to_parquet(f'data/{name}.parquet')
+            signals.append([ds["audio"].iloc[i].numpy().flatten()])
 
-        for mix in paths["mixture_path"]:
-            wavf = tf.io.read_file(mix)
-            audio, _ = tf.audio.decode_wav(contents=wavf)
-            audio = tf.squeeze(audio, axis=-1)
+        audio = pd.DataFrame(signals, columns=["signal"])
+        name = "test" if dataset == "val" else dataset
+        audio.to_parquet(f"data/{name}.parquet")
