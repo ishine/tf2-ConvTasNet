@@ -6,7 +6,7 @@ It is important to understand TensorFlow as the ecosystem and Keras as a tool wi
 
 Engineers can leverage additional TensorFlow tools and modules such as those available in [tf.math](https://www.tensorflow.org/api_docs/python/tf/math), [tf.linalg](https://www.tensorflow.org/api_docs/python/tf/linalg), [tf.signal](https://www.tensorflow.org/api_docs/python/tf/signal), [tf.nn](https://www.tensorflow.org/api_docs/python/tf/nn), and [TensorFlow Probability](https://www.tensorflow.org/probability) to create a NumPy-like development process while reducing dependency management issues.
 
-> TensorFlow does make use of NumPy. It is recommended to allow the TensorFlow install to determine the NumPy version rather than actively management the NumPy install independently. If using Pandas or xarray in the same conda env or virtualenv, one should pin the Pandas version which does not cause NumPy versioning conflicts.
+> TensorFlow does make use of NumPy. It is recommended to allow the TensorFlow install to determine the NumPy version rather than actively managing the NumPy install independently. If using Pandas or xarray in the same conda env or virtualenv, one should pin the Pandas version which does not cause NumPy versioning conflicts.
 
 Custom Model and Layer classes are implemented with basic inheritance principles:
 
