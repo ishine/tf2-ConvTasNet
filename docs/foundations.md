@@ -1,5 +1,7 @@
 # Mathematical Foundations
 
+Brief discussions on the mathematical components of Conv-TasNet are shown below.
+
 ## ReLU Activation
 
 TensorFlow [docs](https://www.tensorflow.org/api_docs/python/tf/keras/activations/relu) <br>
