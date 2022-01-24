@@ -17,6 +17,11 @@ repo_url: https://github.com/AiEngineering/tf2-ConvTasNet
 edit_uri: ""
 
 nav:
-  - Home: "index.md"
-  - Hyperparameters: "Hyerparameters.md"
-  - "The Algorithm": "sources/The Algorithm.md"
+  - Overview: "index.md"
+  - Foundations: "foundations.md"
+  - Hyperparameters: "hyerparameters.md"
+  - Source Code: "sources/sourcecode.md"
+  - Data: "data.md"
+  - Training: "training.md"
+  - Persisting: "persisting.md"
+  - TensorFlow: "tensorflow.md"

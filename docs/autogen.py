@@ -3,7 +3,7 @@ import pathlib
 import shutil
 
 PAGES = {
-    "The Algorithm.md": [
+    "soourcecode.md": [
         "model.algorithm.ConvTasNet",
         "model.algorithm.MaskGenerator",
         "model.algorithm.ConvBlock",
