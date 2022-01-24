@@ -11,6 +11,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+  features:
+    - content.code.annotate
 
 repo_name: tf2-ConvTasNet
 repo_url: https://github.com/AiEngineering/tf2-ConvTasNet
@@ -29,6 +31,11 @@ nav:
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
 
 extra_javascript:
   - javascripts/mathjax.js
