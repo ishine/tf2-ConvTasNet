@@ -19,7 +19,7 @@ edit_uri: ""
 nav:
   - Overview: "index.md"
   - Foundations: "foundations.md"
-  - Hyperparameters: "hyerparameters.md"
+  - Hyperparameters: "hyperparameters.md"
   - Source Code: "sources/sourcecode.md"
   - Data: "data.md"
   - Training: "training.md"
