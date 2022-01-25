@@ -27,7 +27,7 @@ Keras [source code](https://github.com/keras-team/keras/tree/v2.7.0/keras/activa
 The sigmoid activation layers bounds inputs within the range [-1, 1].
 
 $$
-\frac{1}{1 + e^{-x}}
+f(x) = \frac{1}{1 + e^{-x}}
 $$
 
 ## PReLU
