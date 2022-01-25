@@ -67,3 +67,10 @@ TensorFlow [docs](https://www.tensorflow.org/api_docs/python/tf/Tensor)
 ## TensorFlow Variable
 
 TensorFlow [docs](https://www.tensorflow.org/api_docs/python/tf/Variable)
+
+## Official Guides
+
+Read more about TensorFlow Tensors, modules, layers and models in the [official guide](https://www.tensorflow.org/guide):
+
+- [Tensors](https://www.tensorflow.org/guide/tensor)
+- [Modules, layers, and models](https://www.tensorflow.org/guide/intro_to_modules)
