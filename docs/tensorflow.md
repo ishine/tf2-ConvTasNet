@@ -45,7 +45,7 @@ class CustomLayer(keras.layers.Layer):
 
 ## Keras Model
 
-Keras Model overview [docs](https://keras.io/api/models/model/#model-class) <br>
+Keras Model overview [docs](https://keras.io/api/models/) <br>
 Keras Model class [docs](https://keras.io/api/models/model/#model-class)
 
 ## Keras Sequential
